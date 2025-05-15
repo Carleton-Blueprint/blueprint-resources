@@ -1,0 +1,5 @@
+{
+  "pages": ["why-typescript", "absolute-imports", "types-interfaces"],
+  "defaultOpen": true,
+  "icon": "SiTypescript"
+}

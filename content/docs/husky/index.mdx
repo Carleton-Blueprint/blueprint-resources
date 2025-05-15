@@ -1,0 +1,32 @@
+---
+title: Husky
+icon: LuPawPrint
+---
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
+
+<Alert variant="destructive">
+  <AlertCircle className="h-4 w-4" />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription
+    message="Prioritize setting up Prettier + ESLint in your code editor the way you want before relying on Husky pre-commit
+    hooks to handle formatting and linting."
+  />
+</Alert>
+
+Husky is a tool that allows us to manage **Git Hooks** which are scripts that we automate to run on key Git
+repository actions such as committing/pushing.
+
+## Husky Documentation
+
+<Cards>
+
+    <Card href="https://typicode.github.io/husky/get-started.html" title="Get Started" description="The docs are pretty short, just read everything!"/>
+
+</Cards>
+
+Usage of pre-commit hooks is controversial among developers because they slow down commits and can hinder developers
+who prefer regularly committing small pieces of code at a time. For this reason it is important to prioritize speed
+of the pre-commit hooks by limiting the actions performed by them. Using the [lint-staged](https://github.com/lint-staged/lint-staged)
+tool allows us to run things like formatters/linters only on files that have been staged rather than the whole codebase.

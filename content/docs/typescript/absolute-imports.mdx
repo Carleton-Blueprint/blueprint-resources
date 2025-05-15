@@ -1,0 +1,42 @@
+---
+title: Absolute Imports
+---
+
+`tsconfig.json` allows us to configure a variety of options related to how the TypeScript compiler
+processes your code. One of these options is called `paths` which allows us to "re-map imports to
+lookup locations relative to the baseUrl if set, or the tsconfig file itself otherwise" ([TypeScript
+docs](https://www.typescriptlang.org/tsconfig/#paths)).
+
+A common use case of this is option is setting up absolute imports:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+This allows us to import from the `src` directory in a cleaner way
+
+```ts
+import MyComponent from "@/components/MyComponent"
+// instead of
+import MyComponent from ../../../components/MyComponent"
+```
+
+You might be inclined to add other paths to the `tsconfig.json` as well.
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+      "@Components/*": ["./src/components/*"]
+      "@Lib/*": ["./src/lib/*"]
+    }
+  }
+}
+```

@@ -1,0 +1,107 @@
+---
+title: Project Scaffolding
+description: Notes relating to the planning of the project scaffolding project
+---
+
+## Project Scaffolding
+
+Attendees: Hasith De Alwis, Justin Zhang, Omar, James Yap, Neyha Billing
+Date: March 24, 2025
+
+## Goal for next meeting
+
+- finalize tools on checklist and guides
+- delegate some of the guides and start writing them (prioritize the ones used for Acted)
+
+### Action Plan
+
+1. create a standardized checklist of baseline things that blueprint projects should implement
+2. create more specific guides on how those should be implemented/best practices
+3. build scaffolding that we can hand off to projects
+
+### Tech stacks for current/prev technolgap projects
+
+- HTI: NextJS (React)
+  - TailwindCss
+  - Contentful
+  - Framer Motion
+  - Jest
+  - Github/Git/Github Projects
+  - Vercel
+- Technolgap: Astro (TS, HTML, CSS)
+- Acted:
+
+## Checklist
+
+We are mostly building web applications using React and our projects make use of similar tools and have similar needs. React is a flexible tool that allows the developer to use it however they see fit which can often lead to trouble. This is especially a concern because we are working with students who may not have experience with projects of this scale or working with the tools we use. We want to avoid messy, inconsistent, and overcomplicated codebases to deliver the standard of quality that our clients deserve. To guide our student developers and ensure they are following the best practices, we should expect all projects follow https://github.com/alan2207/bulletproof-react standards.
+
+- First step should be for the whole team to review https://github.com/alan2207/bulletproof-react together
+  - https://google.github.io/styleguide/ is also an option instead of bulletproof-react
+  - students who are already familiar with the practices can help the ones who aren’t
+  - our checklist will define which practices are required by blueprint and which parts are optional so a team review would be a good chance for the to align on which optional practices they want to maintain
+- What tools are we including on the ‘checklist’? How can we adjust it to be applicable to different types of projects?
+  - what kind of tech stacks are we using in our current/past projects?
+- Required for all projects: eslint, prettier, husky, testing?
+  - define prettier and eslint configurations that are sensible
+  - setup husky pre commit to run both eslint and prettier and fail out if they aren’t both successful
+  - testing is a bit more complicated
+    - we should be practicing and teaching test driven development and recognizing the importance of it
+    - projects have limited time so setting up full testing/automation suites might not be viable
+    - what kind of testing would we implement? unit tests, e2e?
+  - Husky pre-commit hooks might be better left as optional, seems like people are pretty split between slower commits and catching bugs earlier vs faster commits and catchings bugs a little later
+    - it’s always an option to just let the dev push whatever they want and then fail CI on their PR if their work does not meet standards or pass tests
+    - have the option of using husky for pre-commit or pre-push or just letting CI take care of it
+    - We only have to formatters on files that are staged for pre-commit hooks so we can speed up the hook by a lot this way
+
+### Checklist
+
+This checklist should be used to setup projects for Blueprint. Setting up these tools at the beginning of the project will save the developers from having to do repetitive tasks. It also will ensure some good practices and clean/structured code. The Tech Team can take on the responsibility to ensure that teams don’t run into any problems setting these things up during the “Tech Team infiltration”.
+
+- [ ] TypeScript
+  - [ ] Absolute imports
+- [ ] ESLint + Prettier
+  - [ ] “Format on Save” and other options in IDE
+- [ ] Husky pre-commit hook
+  - [ ] Run prettier/eslint with auto fix on staged filed
+- [ ] Pull request templates + issue templates
+- [ ] CI - auto run build with eslint/prettier and tests on PRs
+  - [ ] Preview deployments
+
+## Guide
+
+- for the guides- think about what purpose we are providing that the official documentation does not?
+- ensure that our docs are not just regurgitating information from the documentation
+  - their explanation will always be more robust and precise
+  - guides should focus on how to put the tools together to make something or point to specific parts of the documentation to help put things together
+- focus on making them a resource hub and also how to navigate documentations
+- List of Guides Brainstorm (for resources that are required or frequently used)
+  - typescript
+  - CI/CD, eslint/prettier
+  - tailwindCSS
+  - Content Management Systems (contentful, payload cms)
+  - Github (how to use project board- maybe provide a template for the team)
+    - hasith the master pls advise
+  - how to web design
+  - how to use chrome dev tools
+
+## Scaffolding
+
+- its valuable experience to implement this themself
+- we should have a checklist of what to implement, a set of standards that all blueprint projects should have
+  - this will help standardize thing and ensure a level of quality for clients
+- option 1:
+  - checklist of things (eslint configs, prettier, etc.)
+  - also include guides/resources on how to implement/use these
+  - blueprint has a mentorship role (from vp projects?)
+  - depending on the type of project this could be different
+  - also provide resources on open source resources to get more complex scaffolding
+- option 2:
+  - build scaffolding that we can hand off to projects
+  - ex: tailwindcss
+
+## Cards
+
+<Cards>
+  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
+  <Card title="Learn more about Fumadocs" href="https://fumadocs.vercel.app" />
+</Cards>

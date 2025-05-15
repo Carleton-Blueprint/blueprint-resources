@@ -1,0 +1,67 @@
+---
+title: Types vs Interfaces
+---
+
+import YouTube from '@/components/YouTube';
+
+Always prefer types instead of interfaces when working on Blueprint projects. This [video by Web Dev Simplified](https://www.youtube.com/watch?v=oiFo2z8ILNo) explains why:
+
+<YouTube id="oiFo2z8ILNo?si=IAwFYzw7aaFmvXoy" />
+
+```ts
+// Prefer this
+type Props = {
+  name: string;
+  age: number;
+};
+// Avoid this
+interface Props {
+  name: string;
+  age: number;
+}
+
+// valid
+type Props = string | number;
+// invalid
+interface Props = string | number;
+```
+
+Here is a table comparing types vs interfaces
+| Feature | `type` | `interface` |
+|----------------------------------|--------------------------------------------------|---------------------------------------------------|
+| **Basic Purpose** | Defines a type alias for any valid type | Describes the shape of an object or class |
+| **Intersection** | ✅ Use `&` for intersection | ✅ Use `extends` keyword |
+| **Union** | ✅ Fully supported | ❌ Not supported |
+| **Declaration Merging** | ❌ Not supported | ✅ Supported |
+| **Implements (Classes)** | ✅ Can be used with `implements` | ✅ Can be used with `implements` |
+| **Tuple and Primitive Types** | ✅ Can define tuples, primitives, etc. | ❌ Only used for object shapes |
+| **Computed Properties** | ✅ Supported | ❌ Not supported |
+| **Use in Complex Types** | ✅ Very flexible with all kinds of types | ❌ Limited to object-like structures |
+
+The only function interfaces serve that types cannot do better is **declaration merging**. Declaration merging is when members of two interfaces
+declarations are merged under a single name. This happens when an interface is declared under the same name as a previously defined one. For example:
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  job: string;
+  salary: string;
+}
+
+interface User {
+  gender: string;
+  isMarried: boolean;
+}
+
+const user: User = {
+  id: 3,
+  name: 'Abdul Shakur',
+  job: 'software developer',
+  salary: $4000,
+  gender: 'male',
+  isMarried: true,
+};
+```
+
+Declaration merging may be desirable in certain cases but if the developer is not familiar with it then it may cause confusion.

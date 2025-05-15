@@ -1,0 +1,114 @@
+---
+title: Why TypeScript?
+---
+
+The primary reason to use TypeScript over JavaScript is to catch issues in your code at compile time instead of runtime.
+
+## The Problem
+
+The following JavaScript code will compile and run with no issues:
+
+```js
+function sumList(list) {
+  let total = 0;
+  for (num of list) {
+    total += num;
+  }
+  return total;
+}
+
+const list = [1, 2, 3, 4];
+const total = sumList(list);
+console.log(total); // > 10
+```
+
+What if we passed an object instead of a list? The code would still compile but it would throw and error during runtime:
+
+```js
+const list = { example: '1' };
+const total = sumList(list);
+console.log(total);
+/*
+^ Throws:
+TypeError: list2 is not iterable
+    at sumList (<anonymous>:13:18)
+    at <anonymous>:22:9
+    at mn (<anonymous>:16:5455)
+*/
+```
+
+Obviously this is problematic for many reasons, the biggest being we only encounter the error during runtime.
+To avoid running into errors during runtime, code needs to be thoroughly tested to cover a variety of use cases.
+
+The way we have named variables/parameters has also led us to make assumptions about their values.
+A parameter named "list" would be reasonably assumed to be an iterable list and therefore used in a for loop.
+These errors are problematic but what about the following example:
+
+```js
+const list = ['1', '2', '3', '4'];
+const total = sumList(list);
+console.log(total); // > "01234"
+```
+
+This example demonstrates a far more dangerous possibility: The code compiles and runs without error but it does not work as expected.
+Although this example seems pretty harmless, you can imagine a mistake like this can have catastrophic consequences.
+
+## What is the solution?
+
+So what is the solution to this issue? Your first thought might be to perform validation on our parameters.
+
+### Validate types manually
+
+Performing validation on our variables before we pass them in can be difficult. You might have noticed I stopped including the function definition
+in my later examples, this is because more often than not function definitions will abstracted into different files or imported from libraries. How
+do we validate if we don't know what we are validating for?
+
+Performing validation on our parameters inside of the function is an option. The problem is performing validation can get complicated quick if the
+parameter types are anything more than primitives. For example we can validate that the parameter is an iterable in our earlier example, and maybe
+even validate that it is a list, but what happens when we input `[1, "2", 3, "4"]`? Now we need to validate each element too?
+
+We also run into the same set of issues when we return a value from our function: the value we return must be validated on the outside. None of our code can
+trust code that is out of its scope, and when we make a change in the code we now have to go back and update all of our validation. This is a huge waste of
+time and makes our code less maintainable.
+
+### Use TypeScript
+
+TypeScript allows us to define types for our variables and parameters and will throw errors if we try to use them in unexpected ways. In our previous
+example TypeScript will complain if we don't define a type for the parameter telling us `Parameter 'list' implicitly has an 'any' type`. Let's specify
+the type and look at the code:
+
+```ts
+function sumList(list: number[]) {
+  let total = 0;
+  for (num of list) {
+    total += num;
+  }
+  return total;
+}
+
+const list = [1, 2, 3, 4];
+const total = sumList(list);
+console.log(total); // > 10
+
+const notAList = { example: '1' };
+const total = sumList(notAList);
+/* 
+^ Throws a compile time error (our IDE can catch these and give us a red underline):
+Argument of type '{ example: string; }' is not assignable to parameter of type 'number[]'
+*/
+```
+
+How does TypeScript know what types `list` and `notAList` are when we haven't specified them? Type inference.
+
+Type inference is what makes TypeScript so powerful and easy to use. In the following code:
+
+```ts
+const num = 5;
+```
+
+TypeScript can infer the type of num implicitly (as opposed to our explicitly defined type in the sumList parameter). Anytime TypeScripts type inference is
+unable to infer a type we get an error for implicitly using 'any' type. This happened with the parameter of the function so we specified that it was of type
+`number[]`. Type inference is amazing because it means we don't have to explicitly define the types of each of our variables like we do in other statically
+typed languages like Java.
+
+TypeScript helps us catch type related errors earlier on and helps us avoid unintended side effects that may arise due to mismatched types.

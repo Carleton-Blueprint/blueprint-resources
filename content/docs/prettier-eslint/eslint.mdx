@@ -1,0 +1,33 @@
+---
+title: ESLint
+icon: SiEslint
+---
+
+## ESLint Docs
+
+import { SiEslint } from 'react-icons/si';
+
+<Cards>
+  <Card icon={<SiEslint />} href="https://eslint.org/docs/latest/" title="ESLint Documentation" />
+  <Card
+    href="https://eslint.org/docs/latest/use/getting-started"
+    title="Installation"
+    description="Follow the instructions on this page to install ESLint in your project"
+  />
+</Cards>
+
+## Why use ESLint
+
+**Catch bugs early** – ESLint spots things like accidental assignments in conditionals `(if (a = b))`, which might run but do the wrong thing.
+
+**Maintain consistency** – Especially important in teams, ESLint enforces a common style, so the codebase looks like it was written by one person.
+
+**Save time during code reviews** – Reviewers can focus on logic, not missing spaces or messy formatting.
+
+**Better developer experience** – Tools like VS Code integrate ESLint into the editor, so you get live feedback as you code.
+
+## Configuration
+
+ESLint has tons of configuration options and can be customized with general or path specific rules and overrides to meet the needs of a given project.
+You can define error levels specific rules and add third party plugins with more options. ESLint can be very daunting with its many configuration
+options so I recommend you start with their recommended configuration and setup rules and overrides as you go.

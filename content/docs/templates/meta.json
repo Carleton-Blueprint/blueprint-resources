@@ -1,0 +1,6 @@
+{
+  "title": "Templates",
+  "pages": ["pull-request-templates"],
+  "defaultOpen": true,
+  "icon": "LayoutTemplate"
+}
