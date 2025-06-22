@@ -1,0 +1,220 @@
+---
+title: React Hooks
+description: A cheatsheet and in depth guide to React Hooks
+icon: FaReact
+---
+
+## Cheatsheet
+
+| **Hook**                                                                       | **Usage (Parameters → Returns)**                                 | **Summary**                                                    |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------- |
+| [useState](#usestate)                                                          | `useState(initialValue)` → `[state, setState]`                   | Declares a state variable and a setter function.               |
+| [useEffect](#useeffect)                                                        | `useEffect(effectFn, deps?)` → `void`                            | Runs side effects after render; optional cleanup.              |
+| [useContext](#usecontext)                                                      | `useContext(MyContext)` → `contextValue`                         | Accesses value from a React context.                           |
+| [useRef](#useRef)                                                              | `useRef(initialValue)` → `refObject`                             | Stores a mutable reference that persists across renders.       |
+| [useMemo](https://react.dev/reference/react/useMemo)                           | `useMemo(() => computeFn, deps)` → `memoizedValue`               | Memoizes a computed value to avoid recalculating.              |
+| [useCallback](https://react.dev/reference/react/useCallback)                   | `useCallback(callbackFn, deps)` → `memoizedCallback`             | Memoizes a function to avoid recreation.                       |
+| [useReducer](https://react.dev/reference/react/useReducer)                     | `useReducer(reducerFn, initialState)` → `[state, dispatch]`      | Like `useState`, but with a reducer for complex state logic.   |
+| [useLayoutEffect](https://react.dev/reference/react/useLayoutEffect)           | `useLayoutEffect(effectFn, deps?)` → `void`                      | Like `useEffect`, but fires _before_ paint (sync with layout). |
+| [useImperativeHandle](https://react.dev/reference/react/useImperativeHandle)   | `useImperativeHandle(ref, () => exposedMethods, deps?)` → `void` | Customizes the instance value exposed to `ref`.                |
+| [useId](https://react.dev/reference/react/useId)                               | `useId()` → `uniqueIdString`                                     | Returns a stable unique ID (useful for accessibility).         |
+| [useTransition](https://react.dev/reference/react/useTransition)               | `useTransition()` → `[isPending, startTransition]`               | Allows state transitions to be marked as non-urgent.           |
+| [useDeferredValue](https://react.dev/reference/react/useDeferredValue)         | `useDeferredValue(value)` → `deferredValue`                      | Returns a deferred version of a value for smoother UI.         |
+| [useSyncExternalStore](https://react.dev/reference/react/useSyncExternalStore) | `useSyncExternalStore(subscribe, getSnapshot)` → `snapshotValue` | Subscribes to an external store (used for state libraries).    |
+| [useInsertionEffect](https://react.dev/reference/react/useInsertionEffect)     | `useInsertionEffect(effectFn, deps?)` → `void`                   | Injects styles _before_ layout effects (rarely needed).        |
+
+## useState
+
+useState is a React Hook that lets you add a state variable to your component.
+
+### Usage
+
+```js
+import { useState } from 'react';
+
+export default function App() {
+  // the useState function takes an initial value as an input
+  // and returns an array with exactly two items: the state variable and the set function
+  // we can destructure this array to get them individually
+  const [age, setAge] = useState(28);
+  const [name, setName] = useState('Taylor');
+  const [todos, setTodos] = useState(() => createTodos());
+}
+```
+
+useState can take any value/type as a parameter including a function:
+
+> If you pass a function as initialState, it will be treated as an initializer function.
+> It should be pure, should take no arguments, and should return a value of any type.
+> React will call your initializer function when initializing the component, and store its
+> return value as the initial state. - [React Docs](https://react.dev/reference/react/useState)
+
+### Set function
+
+The set function returned by useState can be used to update the state and trigger a rerender.
+The set function takes takes value or updater function as an input and has no return value.
+The new value can be passed directly or calculated from the previous value using a function.
+Avoid using the state variable after the set function with the expection that the value has
+been update:
+
+> The set function only updates the state variable for the next render. If you read the state
+> variable after calling the set function, you will still get the old value that was on the
+> screen before your call. - [React Docs](https://react.dev/reference/react/useState)
+
+```jsx
+import { useState } from 'react';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  setCount(10); // sets count directly
+  setCount(count + 1); // ❌ avoid this! count will be 0 here
+  console.log(count); // Still 0!
+
+  function decrementCount() {
+    // ✅ calculates value from previous value using updater function which takes previous
+    // value as input
+    setCount(prevCount => prevCount - 1);
+  }
+}
+```
+
+[Read more on the docs](https://react.dev/reference/react/useState)
+
+## useEffect
+
+useEffect is a React Hook that lets you synchronize a component with an external system.
+It allows us to run some logic called an "effect" or "side effect" on component mount,
+dismount, and on change of any dependencies.
+
+### Usage
+
+```js
+import { useState, useEffect } from 'react';
+
+export default function App() {
+  useEffect(() => {
+    // function that contains our effect logic
+    return () => {}; /* return is optional but it allows us to run some logic on
+                        component dismount as well */
+  }, []); /* second parameter is an array of dependencies.
+           the effect function will run on mount and every time there is a change
+           in any of the dependencies.
+           an empty dependency list means the effect will only run on component mount. */
+}
+```
+
+useEffect is very commonly misused so here are some resources that detail more
+about this hook as well as when/how not to use it:
+
+- [useEffect](https://react.dev/reference/react/useEffect) - React Docs
+- [You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect) - React Docs
+- [Why I Don’t Use useEffect In My React Components](https://www.youtube.com/watch?v=MFj_S0Nof90) - Web Dev Simplified
+
+> Effects are an “escape hatch”: you use them when you need to “step outside React” and when there is no better built-in solution for your use case. If you find yourself often needing to manually write Effects, it’s usually a sign that you need to extract some custom Hooks for common behaviors your components rely on. - [React Docs](https://react.dev/reference/react/useEffect#wrapping-effects-in-custom-hooks)
+
+## useContext
+
+useContext is a React Hook that lets you read and subscribe to context from your component.
+It allows us to pass data deeply into the component tree without prop drilling (passing
+props down multiple levels of components that don't need it).
+
+### Usage
+
+`App.tsx` :
+
+```jsx
+import { createContext, useState } from 'react';
+
+export const ThemeContext = createContext(true); // parameter is the default value
+
+export default function App() {
+  const [darkTheme, setDarkTheme] = useState(true);
+
+  function toggleTheme() {
+    setDarkTheme(prevDarkTheme => !prevDarkTheme);
+  }
+
+  return (
+    <>
+      <ThemeContext.Provider value={darkTheme}>
+        <button onClick={toggleTheme}>Toggle Theme</button>
+        <ChildComponent>
+          <AnotherChildComponent>Hello World!</AnotherChildComponent>
+        </ChildComponent>
+        <MoreChildComponents />
+      </ThemeContext.Provider>
+    </>
+  );
+}
+```
+
+`AnotherChildComponent.tsx` :
+
+```jsx
+import ThemeContext from '@/App';
+import { useContext } from 'react';
+
+export default function AnotherChildComponent() {
+  const darkTheme = useContext(ThemeContext);
+
+  return <div>{darkTheme ? 'Dark Mode' : 'Light Mode'}</div>;
+}
+```
+
+While you can use React Context (useContext hook) as a global state management tool
+by wrapping your whole app in a context provider, you might be better off using an
+external library such as Redux or Zustand. Best practice for managing state is to try
+and keep the state as close as possible to where it is needed and use React Context
+to avoid prop drilling. Review the following resources for more information:
+
+- [useContext](https://react.dev/reference/react/useContext) - React Docs
+- [Passing Data Deeply With Context](https://react.dev/learn/passing-data-deeply-with-context) - React Docs
+- [Context](https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/context/) - React TypeScript Cheatsheet
+
+## useRef
+
+useRef is a React Hook that lets you reference a value that’s not needed for rendering.
+A ref object remains the same between renders and does not trigger a rerender when it
+is changed. Refs are commonly used to access and manipulate DOM elements.
+
+### Usage
+
+```jsx
+import { useRef } from 'react';
+
+export default function Form() {
+  /* useRef takes an initial value as a parameter but this
+  will be ignored after the first rerender. useRef then
+  returns an object with one property called current.
+  current will initially be the parameter value and it can
+  later be set to something else including DOM elements.
+  On next renders useRef will return the same object */
+  const inputRef = useRef(null);
+
+  function handleClick() {
+    // we can use DOM element properties once the ref has been set
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      {/* we can pass our ref into our JSX node and React
+        will set its current property for us */}
+      <input ref={inputRef} />
+      <button onClick={handleClick}>Focus the input</button>
+    </>
+  );
+}
+```
+
+Refs are perfect for storing data that doesn't affect the visual output
+of your component. They allow us to store information that we need to
+persist between re-renders and they are local to each copy of the
+component (each instance of the component maintains its own refs).
+
+Read more:
+
+[useRef](https://react.dev/reference/react/useRef) - React Docs
+[Referencing Values with Refs](https://react.dev/learn/referencing-values-with-refs) - React Docs
+[Manipulating the DOM with Refs](https://react.dev/learn/manipulating-the-dom-with-refs) - React Docs

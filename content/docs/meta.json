@@ -1,3 +1,15 @@
 {
-  "pages": ["project-requirements", "typescript", "prettier-eslint", "husky", "templates"]
+  "pages": [
+    "---Blueprint Essentials---",
+    "project-requirements",
+    "typescript",
+    "prettier-eslint",
+    "husky",
+    "templates",
+    "---Resources---",
+    "resource-list",
+    "---Guides---",
+    "guides/tailwind",
+    "guides/react-hooks"
+  ]
 }

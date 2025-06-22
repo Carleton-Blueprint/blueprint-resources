@@ -6,6 +6,8 @@ import { SiTypescript } from 'react-icons/si';
 import { SiPrettier } from 'react-icons/si';
 import { SiEslint } from 'react-icons/si';
 import { LuPawPrint } from 'react-icons/lu';
+import { RiTailwindCssFill } from 'react-icons/ri';
+import { FaReact } from 'react-icons/fa';
 
 // `loader()` also assign a URL to your pages
 // See https://fumadocs.vercel.app/docs/headless/source-api for more info
@@ -21,6 +23,8 @@ export const source = loader({
     if (icon === 'SiPrettier') return createElement(SiPrettier);
     if (icon === 'SiEslint') return createElement(SiEslint);
     if (icon === 'LuPawPrint') return createElement(LuPawPrint);
+    if (icon === 'RiTailwindCssFill') return createElement(RiTailwindCssFill);
+    if (icon === 'FaReact') return createElement(FaReact);
 
     if (icon in icons) return createElement(icons[icon as keyof typeof icons]);
   },

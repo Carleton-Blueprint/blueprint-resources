@@ -1,0 +1,62 @@
+---
+title: Tailwind CSS
+description: A guide to getting started with Tailwind CSS
+icon: RiTailwindCssFill
+---
+
+import YouTube from '@/components/youtube';
+
+## Tailwind Docs
+
+<Cards>
+  <Card
+    title="Tailwind CSS Overview"
+    description="Everything you need to know about Tailwind CSS can be found here"
+    href="https://tailwindcss.com/docs/styling-with-utility-classes"
+  />
+  <Card
+    title="Tailwind CSS IntelliSense"
+    description="Adds Tailwind CSS autocomplete, syntax highlighting, and linting to your editor"
+    href="https://tailwindcss.com/docs/editor-setup#intellisense-for-vs-code"
+  />
+</Cards>
+
+The main benefits Tailwind CSS offers is speed and co-location:
+
+1. Speed - Styling a component requires much less typing
+
+2. Co-location - The CSS stays in the same place as the JSX/HTML so there is no need to context switch between
+   two files
+
+```html
+<Card className="bg-red-500 text-blue-400 mx-6 mt-2 py-3">
+ ...
+</Card>
+
+ vs
+
+<Card className="card">
+ ...
+</Card>
+
+styles.css:
+.card {
+    background-color: red;
+    color: blue;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+ ...
+</Card>
+```
+
+## Learning Tailwind
+
+The best way to learn Tailwind CSS is to just start using it in a project. Keep the Tailwind CSS documentation
+open and search for the CSS property you need as you go. Using the Tailwind CSS IntelliSense extension on VSCode
+will speed up the process even more.
+
+<YouTube id="Ksn1tThNTjI?si=SGxjnIvsQHLnhIIk" />
